@@ -2,6 +2,7 @@ const { Rental, validate } = require('../models/rental');
 const { Movie } = require('../models/movie'); 
 const { Customer } = require('../models/customer');
 const express = require('express');
+const { default: mongoose } = require('mongoose');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
