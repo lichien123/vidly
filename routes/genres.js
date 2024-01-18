@@ -1,76 +1,50 @@
-const Joi = require('joi');
+const { Genre, validate } = require('../models/genre');
 const express = require('express');
 const router = express.Router();
 
-const videos = [
-  { id: 1, title: 'your name', genres: [ 'anime', 'romance' ] },
-  { id: 2, title: 'cyberpunk 2077', genres: [ 'anime', 'action' ] },
-  { id: 3, title: 'pokemon the first movie', genres: [ 'anime', 'action', 'adventure' ] },
-  { id: 4, title: 'superbowl LII', genres: [ 'sports' ] },
-  { id: 5, title: 'forrest gump', genres: [ 'comedy', 'adventure' ] }
-];
-
-const validateBody = (body) => {
-  const schema = Joi.object({
-    title: Joi.string().min(3).required(),
-    genres: Joi.array().items(Joi.string()).required()
-  });
-  return schema.validate(body);
-};
-
-router.get('/', (req, res) => {
-  res.send(videos);
+router.get('/', async (req, res) => {
+  const genres = await Genre.find().sort('name');
+  res.send(genres);
 });
 
-router.get('/:id', (req, res) => {
-  const video = videos.find(v => v.id === parseInt(req.params.id));
-  if (!video) return res.status(404).send('video not found');
-  res.send(video);
+router.get('/:id', async (req, res) => {
+  const genre = await Genre.findById(req.params.id);
+
+  if (!genre) return res.status(404).send('genre not found');
+  res.send(genre);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // validate body
   // if not valid, return 400
-  const { error } = validateBody(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const video = {
-    id: videos.length + 1,
-    title: req.body.title,
-    genres: req.body.genres
-  }
+  let genre = new Genre({ name: req.body.name })
+  genre = await genre.save();
 
-  videos.push(video);
-  res.send(videos);  
+  res.send(genre);
 });
 
-router.put('/:id', (req, res) => {
-  const video = videos.find(v => v.id === parseInt(req.params.id));
-  if (!video) res.status(404).send('video not found');
-
-  const { error } = validateBody(req.body);
+router.put('/:id', async (req, res) => {
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const newVideo = {
-    id: parseInt(req.params.id),
-    title: req.body.title,
-    genres: req.body.genres
-  };
+  const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
+    new: true
+  });
 
-  const index = videos.indexOf(video);
-  videos[index] = newVideo;
+  if (!genre) res.status(404).send('genre not found');
 
-  res.send(videos);
+  res.send(genre);
 });
 
-router.delete('/:id', (req, res) => {
-  const video = videos.find(v => v.id === parseInt(req.params.id));
-  if (!video) return res.status(404).send('video not found');
+router.delete('/:id', async (req, res) => {
+  const genre = await Genre.findByIdAndDelete(req.params.id);
 
-  const index = videos.indexOf(video);
-  videos.splice(index, 1);
+  if (!genre) return res.status(404).send('genre not found');
 
-  res.send(video);
+  res.send(genre);
 });
 
 module.exports = router;
