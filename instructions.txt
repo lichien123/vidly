@@ -1,4 +1,4 @@
-
+PUT THIS INTO .GITIGNORE
 
 to set private key locally, run this command:
 export vidly_jwtPrivateKey=mySecureKey
