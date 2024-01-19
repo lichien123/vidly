@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
+const auth = require('../middleware/auth');
 
 const validate = (body) => {
     const schema = Joi.object({
@@ -17,7 +18,7 @@ const validate = (body) => {
     return schema.validate(body);
 };
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
