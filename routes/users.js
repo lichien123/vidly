@@ -2,15 +2,10 @@ const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const auth = require('../middleware/auth');
 
-router.get('/', async (req, res) => {
-    const users = await User.find().sort('name');
-    res.send(users);
-});
-
-router.get('/:id', (req, res) => {
-    const user = User.findById(req.params.id);
-    if (!user) return res.status(404).send('user not found');
+router.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
     res.send(user);
 });
 

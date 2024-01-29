@@ -15,3 +15,6 @@ now you can use protected routes!
 
 x-auth-token for Mosh Hamedani:
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWE5Y2IyNTQzZGJlMWI2ZWQ0ZGUxY2EiLCJpYXQiOjE3MDU2Mjk5ODR9.WyHVx1j5X6DWUZODwajoOS9q4tp7sCy86J9Dz05G3Bo
+
+password:
+a1E2345@678
