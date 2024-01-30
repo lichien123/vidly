@@ -1,0 +1,20 @@
+PUT THIS INTO .GITIGNORE
+
+to set private key locally, run this command:
+export vidly_jwtPrivateKey=mySecureKey
+
+you can generate an auth token by using the post method inside of /routes/auth.js
+the response body will be an auth token
+you can then copy/paste that auth token into the header of a protected route like so:
+
+inside of headers in request:
+HEADER KEY: x-auth-token
+HEADER VALUE: [paste token here]
+
+now you can use protected routes!
+
+x-auth-token for Mosh Hamedani:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWE5Y2IyNTQzZGJlMWI2ZWQ0ZGUxY2EiLCJpYXQiOjE3MDU2Mjk5ODR9.WyHVx1j5X6DWUZODwajoOS9q4tp7sCy86J9Dz05G3Bo
+
+password:
+a1E2345@678
