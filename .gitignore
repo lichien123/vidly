@@ -1,2 +1,4 @@
 node_modules/
-*.txt
+instructions.txt
+logfile.log
+uncaughtExceptions.log
